@@ -36,6 +36,7 @@ app.get('/feeds',function(req,res,next){
   hideLive = req.param('hide_live')? req.param('hide_live') : 0;
   page = req.param('page') ? req.param('page') : page;
   lastTs = req.param('last_ts') ? req.param('last_ts') : 0;
+  afterTs = req.param('after_ts') ? req.param('after_ts') : 0;
   count = req.param('count') ? req.param('count') : count;
   search = req.param('search') ? req.param('search') : false;
 
@@ -52,6 +53,9 @@ app.get('/feeds',function(req,res,next){
   }
   if(lastTs > 0){
     conditions.push({date: {'$gt' : lastTs}});
+  }
+  if(afterTs > 0){
+    conditions.push({date: {'$lte' : afterTs}});
   }
   if(search){
     conditions.push({
