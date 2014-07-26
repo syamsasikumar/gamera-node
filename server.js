@@ -23,6 +23,12 @@ var setHeaders = function(req, res){
   });
 }
 
+
+app.options('/*',function(req,res){
+  setHeaders(req, res);
+  res.send('');
+});
+
 app.get('/feeds',function(req,res,next){
   setHeaders(req, res);
   hideNews = req.param('hide_news')? req.param('hide_news') : 0 ;
