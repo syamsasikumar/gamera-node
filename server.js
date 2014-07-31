@@ -6,6 +6,7 @@ var port = process.env.PORT || 8082;
 var count = 20;
 var page = 1;
 
+//@todo: move this 
 mongoose.connect('mongodb://kyojin:kyojin123@ds053469.mongolab.com:53469/kyojin'); //@hideme
 
 var feed = require('./models/feed');
@@ -23,11 +24,42 @@ var setHeaders = function(req, res){
   });
 }
 
-
+// for CORS
 app.options('/*',function(req,res){
   setHeaders(req, res);
   res.send('');
 });
+
+
+/**
+ * @api {get} /feeds Request soccer feeds
+ * @apiName GetFeeds
+ * @apiGroup Feed
+ *
+ * @apiParam {Boolean} [hide_news=0] Hides news feeds from output.
+ * @apiParam {Boolean} [hide_tweet=0] Hides tweets from output.
+ * @apiParam {Boolean} [hide_live=0] Hides live feed from output.
+ * @apiParam {Number} [page=1] Page Number.
+ * @apiParam {Number} [count=20] Count of rows expected per page.
+ * @apiParam {Number} [after_ts] Upper limit for timestamp.
+ * @apiParam {Number} [last_ts] Lower limit from timestamp.
+ * @apiParam {String} [search] Keyword to search in title / description.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [{
+ *        "_id":"53d164d668425b29ecc809c8",
+ *        "title":"#Soccer #Livescore @ScoresPro: (UEFA-2QR) FC Groningen vs Aberdeen: 1-2 ",
+ *        "link":"http://www.scorespro.com/soccer/livescore/fc-groningen-vs-aberdeen/24-07-2014/",
+ *        "guid":"9f9d9071d9e0072b831f02d577b51ac5",
+ *        "description":"Match Finished",
+ *        "thumbnail":"",
+ *        "date":1406229555,
+ *        "type":"live",
+ *        "source":"live-soccer"
+ *      }]
+ *
+ */
 
 app.get('/feeds',function(req,res,next){
   setHeaders(req, res);

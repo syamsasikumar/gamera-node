@@ -1,6 +1,6 @@
-gamera-node
-===========
+Gamera is a nodejs REST api layer for soccer news
 
-nodejs REST api layer for soccer news
+Usage Doc - 
 
-@fillme
+API Doc generation
+    apidoc -f server.js  -o doc/
